@@ -1,19 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "c_api.h"
+
+void LoggerError(const char *message, const char *error) {
+	time_t now;
+	char buffer[20];
+
+	time(&now);
+	strftime(buffer, 20, "%Y-%m-%dT%H:%M:%S", localtime(&now));
+
+	fprintf(stderr, "%s \t ERROR \t CatBoost %s \t %s\n", buffer, message, error);
+}
 
 int main(int argc, char **argv) {
 
 	if(argc != 2) {
-		printf("Error you didn't provide correctly model filename\n");
+		LoggerError("Error you didn't provide correctly model filename", "");
 		return 1;
 	}
 
 	ModelCalcerHandle* modelHandle;
 	modelHandle = ModelCalcerCreate();
 	if (!LoadFullModelFromFile(modelHandle,	argv[1])) {
-		printf("LoadFullModelFromFile error message: %s\n", GetErrorString());
+		LoggerError("LoadFullModelFromFile error message:", GetErrorString());
 		return 1;
 	}
 
@@ -44,7 +55,7 @@ int main(int argc, char **argv) {
 
 
 		if (!CalcModelPredictionFlat(modelHandle, 1, &features, floatFeaturesSize, result, resultSize)) {
-			printf("CalcModelPredictionFlat error message: %s\n", GetErrorString());
+			LoggerError("CalcModelPredictionFlat error message:", GetErrorString());
 			return 1;
 		}
 
