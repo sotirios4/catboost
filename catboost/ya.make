@@ -11,7 +11,6 @@ RECURSE(
     private
     pytest
     python-package
-    spark
     tools
     docs
 )
