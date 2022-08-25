@@ -10,7 +10,6 @@ RECURSE(
     libs
     private
     pytest
-    python-package
     tools
     docs
 )
