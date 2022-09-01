@@ -6,7 +6,6 @@ RECURSE(
     R-package
     app
     idl
-    jvm-packages
     libs
     private
     pytest
